@@ -1,0 +1,196 @@
+// Override Bootstrap's Sass default variables
+//C:\Homework\paper\project\src\scss
+// Nearly all variables in Bootstrap are written with the `!default` flag.
+// This allows you to override the default values of those variables before
+// you import Bootstrap's source Sass files.
+//
+// Overriding the default variable values is the best way to customize your
+// CSS without writing _new_ styles. For example, you can either change
+// `$body-color` or write more CSS that override's Bootstrap's CSS like so:
+// `body { color: red; }`.
+
+//
+// Bring in Bootstrap
+//
+
+// Import all of Bootstrap's CSS
+@import "bootstrap/scss/bootstrap";
+
+// Place variable overrides first, then import just the styles you need. Note that some stylesheets are required.
+
+// Toggle global options
+$enable-gradients: true;
+$enable-shadows: true;
+
+$offcanvas-box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+
+// Include functions first
+@import "bootstrap/scss/functions";
+
+// Customize some defaults
+$body-color: #333;
+$body-bg: #fff;
+$border-radius: .4rem;
+$success: #7952b3;
+
+// Required
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/navbar"; // Requires nav
+@import "bootstrap/scss/modal"; // Requires transitions
+@import "bootstrap/scss/popover";
+@import "bootstrap/scss/offcanvas"; // Requires transitions
+
+// Helpers
+@import "bootstrap/scss/helpers";
+
+// Utilities
+@import "bootstrap/scss/utilities/api";
+
+//
+// Custom styles
+//
+
+@import "icon-list";
+
+@font-face {
+  font-family: 'Alimama Fang Yuan Ti';
+  src: url('C:/Homework/paper/project/src/assets/fonts/AlimamaFangYuanTiVF-Thin.woff2') format('woff2'),
+       url('C:/Homework/paper/project/src/assets/fonts/AlimamaFangYuanTiVF-Thin.woff') format('woff'),
+       url('C:/Homework/paper/project/src/assets/fonts/AlimamaFangYuanTiVF-Thin.ttf') format('truetype');
+  font-weight: 400; /* 可根据需要调整 */
+  font-style: normal; /* 可根据需要调整 */
+}
+.main{
+  height: 100vh;
+}
+.content{
+  min-height: 100%;
+  margin-top: 55px;
+}
+.sidebar{
+  background: transparent;
+  border-right: 0;
+  box-shadow: 0 0 2rem 0 rgba(0, 0, 0, .05);
+  max-width: 190px;
+  min-width: 190px;
+  transition: margin-left .3s ease-in-out, left .3s ease-in-out, margin-right .3s ease-in-out, right .3s ease-in-out;
+  z-index: 1;
+}
+.right{
+
+}
+.header{
+  width:100%;
+  background-color: #7952b3;
+}
+
+.component{
+
+}
+
+.footer{
+  background-color: coral;
+}
+
+.bg-deep-purple {
+  background-color: #4b0082 !important; /* 使用深紫色 */
+}
+
+fw-bold {
+  font-weight: 500 !important;
+}
+
+img, svg {
+  vertical-align: middle;
+}
+img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+
+
+
+
+
+.carousel-inner img {
+  max-height: 500px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.carousel {
+  margin-top: 100px;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+.carousel-item {
+    transition: transform 0.5s ease-in-out !important;
+}
+
+
+// 应用动画效果到 body
+body {
+  font-family: 'Alimama Fang Yuan Ti', sans-serif; 
+  background: linear-gradient(to bottom, 
+    rgba(173, 216, 230, 0.5),  /* 淡蓝色 */
+    rgba(100, 149, 237, 0.4), /* 浅蓝色 */
+    rgba(70, 130, 180, 0.4),  /* 深蓝色 */
+    rgba(180, 210, 225, 0.3), /* 蓝灰色 */
+    rgba(255, 182, 193, 0.3), /* 浅粉色 */
+    rgba(255, 240, 245, 0.4), /* 淡粉色 */
+    rgba(255, 255, 224, 0.4), /* 淡黄色 */
+    rgba(255, 200, 150, 0.3), /* 淡橙色 */
+    rgba(255, 192, 203, 0.4), /* 淡红色 */
+    rgba(230, 230, 250, 0.4)  /* 紫色 */
+  );
+  height: 100vh; /* 确保背景填满整个视口 */
+
+}
+
+.hover-img {
+    transition: transform 0.3s ease;
+  }
+
+.parallax {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.parallax-layer {
+  position: absolute;
+  width: 100%;
+  height: auto;
+}
+.dropdown-menu {
+    font-size: 0.875rem; /* 或其他更小的值 */
+}
+.dropdown-item {
+    padding: 0.25rem 0.5rem; /* 调整为更小的值 */
+}
+.avatar-img {
+    width: 30px; /* 或其他适合的大小 */
+    height: 30px; /* 或其他适合的大小 */
+}
+.dropdown-menu {
+    max-height: 200px; /* 或其他合适的值 */
+    overflow-y: auto; /* 启用垂直滚动 */
+}
+

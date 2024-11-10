@@ -1,0 +1,521 @@
+// Override Bootstrap's Sass default variables
+//C:\Homework\paper\project\src\scss
+// Nearly all variables in Bootstrap are written with the `!default` flag.
+// This allows you to override the default values of those variables before
+// you import Bootstrap's source Sass files.
+//
+// Overriding the default variable values is the best way to customize your
+// CSS without writing _new_ styles. For example, you can either change
+// `$body-color` or write more CSS that override's Bootstrap's CSS like so:
+// `body { color: red; }`.
+
+//
+// Bring in Bootstrap
+//
+
+// Import all of Bootstrap's CSS
+@import "bootstrap/scss/bootstrap";
+
+// Place variable overrides first, then import just the styles you need. Note that some stylesheets are required.
+
+// Toggle global options
+$enable-gradients: true;
+$enable-shadows: true;
+
+$offcanvas-box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+
+// Include functions first
+@import "bootstrap/scss/functions";
+
+// Customize some defaults
+$body-color: #333;
+$body-bg: #fff;
+$border-radius: .4rem;
+$success: #7952b3;
+
+// Required
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/navbar"; // Requires nav
+@import "bootstrap/scss/modal"; // Requires transitions
+@import "bootstrap/scss/popover";
+@import "bootstrap/scss/offcanvas"; // Requires transitions
+
+// Helpers
+@import "bootstrap/scss/helpers";
+
+// Utilities
+@import "bootstrap/scss/utilities/api";
+
+//
+// Custom styles
+//
+
+@import "icon-list";
+
+@font-face {
+  font-family: 'Alimama Fang Yuan Ti';
+  src: url('C:/Homework/paper/project/src/assets/fonts/AlimamaFangYuanTiVF-Thin.woff2') format('woff2'),
+       url('C:/Homework/paper/project/src/assets/fonts/AlimamaFangYuanTiVF-Thin.woff') format('woff'),
+       url('C:/Homework/paper/project/src/assets/fonts/AlimamaFangYuanTiVF-Thin.ttf') format('truetype');
+  font-weight: 400; /* 可根据需要调整 */
+  font-style: normal; /* 可根据需要调整 */
+}
+.main{
+  height: 100vh;
+}
+.content{
+  min-height: 100vh;
+  margin-top: 55px;
+}
+.sidebar{
+  background: transparent;
+  border-right: 0;
+  box-shadow: 0 0 2rem 0 rgba(0, 0, 0, .05);
+  max-width: 190px;
+  min-width: 190px;
+  transition: margin-left .3s ease-in-out, left .3s ease-in-out, margin-right .3s ease-in-out, right .3s ease-in-out;
+  z-index: 1;
+}
+.header{
+  width:100%;
+  background-color: #7952b3;
+}
+
+.component{
+  margin-left: 20px;
+}
+
+.footer{
+  background-color: coral;
+}
+
+.bg-deep-purple {
+  background-color: #4b0082 !important; /* 使用深紫色 */
+}
+
+fw-bold {
+  font-weight: 500 !important;
+}
+
+img, svg {
+  vertical-align: middle;
+}
+img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
+.rounded-circle {
+  border-radius: 50% !important;
+}
+.sidebar-user {
+  background: #fff;
+  color: #153d77;
+  padding: 1.5rem 1rem 1rem;
+  text-align: center;
+}
+.sidebar-content, .sidebar-nav {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-nav {
+  flex: 1;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0%;
+  justify-content: flex-start;
+  list-style: none;
+  list-style-position: initial;
+  list-style-image: initial;
+  list-style-type: none;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+.sidebar-header {
+  background: transparent;
+  color: #adb5bd;
+  font-size: .75rem;
+  font-weight: 500;
+  padding: .375rem 1.5rem;
+  text-transform: none;
+}
+.sidebar-link, a.sidebar-link {
+  font-size: 13px;
+  background: transparent;
+  border-radius: .2rem;
+  color: #6c757d;
+  cursor: pointer;
+  display: block;
+  font-weight: 400;
+  margin: 0 .5rem;
+  padding: .65rem .75rem;
+  position: relative;
+  text-decoration: none;
+  transition: background .1s ease-in-out;
+}
+.sidebar-dropdown .sidebar-item.active .sidebar-link {
+  background: #fff;
+  color: #212529;
+  font-weight: 400;
+}
+.sidebar-dropdown .sidebar-link {
+  background: #fff;
+  color: #6c757d;
+  font-size: 90%;
+  font-weight: 400;
+  margin: 0 .5rem;
+  padding: .35rem 1.5rem .35rem 2.75rem;
+}
+.sidebar-item{
+  font-size:13px;
+}
+
+// 主页内容
+.welcome {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  position: relative;
+}
+.welcome-title {
+  color: #fff;
+  font-size: 1.640625rem;
+}
+.welcome-subtitle {
+  color: #fff;
+  font-size: .9375rem;
+}
+.card-customize {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: rgba(248, 246, 242, .3);
+  background-clip: border-box;
+  border: 1px solid #e8e5dd;
+  border-radius: .95rem;
+}
+.card .card-body, .card .card-footer {
+  padding: 2rem 2.25rem;
+}
+//日历
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td {
+  padding: 0;
+}
+
+.calendar-container {
+  position: absolute;
+  width: 450px;
+  transform: scale(0.55); /* 缩小至80%，可以调整为其他比例 */
+  transform-origin: top left; /* 以顶部为基准缩放 */
+}
+
+.calendar-container header {
+  border-radius: 1em 1em 0 0;
+  background: #e66b6b;
+  color: #fff;
+  padding: 3em 2em;
+}
+
+.day {
+  font-size: 8em;
+  font-weight: 900;
+  line-height: 1em;
+}
+
+.month {
+  font-size: 4em;
+  line-height: 1em;
+  text-transform: capitalize; /* 首字母大写 */
+}
+
+.calendar {
+  background: #fff;
+  border-radius: 0 0 1em 1em;
+  -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .2), 0 3px 1px #fff;
+  box-shadow: 0 2px 1px rgba(0, 0, 0, .2), 0 3px 1px #fff;
+  color: #555;
+  display: inline-block;
+  padding-left: 5px;
+  width: 450px;
+  //transform: scale(0.6); /* 缩小至80%，可以调整为其他比例 */
+  //transform-origin: top center; /* 以顶部为基准缩放 */
+}
+
+.calendar thead {
+  color: #e66b6b;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.calendar td {
+  padding: .5em 1em;
+  text-align: center;
+}
+
+.calendar tbody td:hover {
+  background: #cacaca;
+  color: #fff;
+}
+
+.current-day {
+  color: #e66b6b;
+}
+
+.prev-month,
+.next-month {
+  color: #cacaca;
+}
+
+.ring-left,
+.ring-right {
+  position: absolute;
+  top: 230px;
+}
+
+.ring-left { left: 2em; }
+.ring-right { right: 2em; }
+
+.ring-left:before,
+.ring-left:after,
+.ring-right:before,
+.ring-right:after {
+  background: #fff;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 3px 1px rgba(0, 0, 0, .3), 0 -1px 1px rgba(0, 0, 0, .2);
+  box-shadow: 0 3px 1px rgba(0, 0, 0, .3), 0 -1px 1px rgba(0, 0, 0, .2);
+  content: "";
+  display: inline-block;
+  margin: 8px;
+  height: 32px;
+  width: 8px;
+}
+/* Basic resets */
+h2 {
+  margin: 0 0 0.5em;
+  border-bottom: 1px solid #ccc;
+  padding: 0 0 .25em;
+}
+
+/* Styling the determinate progress element */
+progress[value] {
+  appearance: none;
+  border: none;
+  width: 100%;
+  height: 20px;
+  background-color: whiteSmoke;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .5) inset;
+  color: royalblue;
+  position: relative;
+  margin: 0 0 0.3em;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: whiteSmoke;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .5) inset;
+}
+
+progress[value]::-webkit-progress-value {
+  position: relative;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+  border-radius: 3px;
+  animation: animate-stripes 5s linear infinite;
+}
+
+@keyframes animate-stripes {
+  100% { background-position: -100px 0; }
+}
+
+progress[value]::-moz-progress-bar {
+  background-image:
+          -moz-linear-gradient(135deg, transparent, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%),
+          -moz-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .2)),
+          -moz-linear-gradient(left, #09c, #f44);
+}
+
+.progress-bar {
+  background-color: whiteSmoke;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .5) inset;
+  width: 100%;
+  height: 20px;
+}
+
+.progress-bar span {
+  background-color: royalblue;
+  border-radius: 3px;
+  display: block;
+  text-indent: -9999px;
+}
+
+p[data-value] {
+  position: relative;
+}
+
+p[data-value]:after {
+  content: attr(data-value) '%';
+  position: absolute;
+  right: 0;
+}
+
+/* Specific progress bar styles for different skills */
+.html5::-webkit-progress-value,
+.python::-webkit-progress-value {
+  background-image:
+          -webkit-linear-gradient(135deg, transparent, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%),
+          -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .2)),
+          -webkit-linear-gradient(left, #09c, #f44);
+}
+
+.css3::-webkit-progress-value,
+.php::-webkit-progress-value {
+  background-image:
+          -webkit-linear-gradient(135deg, transparent, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%),
+          -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .2)),
+          -webkit-linear-gradient(left, #09c, #ff0);
+}
+
+.jquery::-webkit-progress-value,
+.node-js::-webkit-progress-value {
+  background-image:
+          -webkit-linear-gradient(135deg, transparent, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%),
+          -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .2)),
+          -webkit-linear-gradient(left, #09c, #690);
+}
+
+.html5::-moz-progress-bar,
+.php::-moz-progress-bar {
+  background-image:
+          -moz-linear-gradient(135deg, transparent, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%),
+          -moz-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .2)),
+          -moz-linear-gradient(left, #09c, #f44);
+}
+
+.css3::-moz-progress-bar,
+.php::-moz-progress-bar {
+  background-image:
+          -moz-linear-gradient(135deg, transparent, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%),
+          -moz-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .2)),
+          -moz-linear-gradient(left, #09c, #ff0);
+}
+
+.jquery::-moz-progress-bar,
+.node-js::-moz-progress-bar {
+  background-image:
+          -moz-linear-gradient(135deg, transparent, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%),
+          -moz-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .2)),
+          -moz-linear-gradient(left, #09c, #690);
+}
+.py-5 {
+  padding-bottom: 2rem !important;
+  padding-top: 2rem !important;
+}
+
+
+.alert-dismissible {
+  padding-right: 3rem;
+}
+.btn-primary-soft {
+  color: #0f6fec;
+  background-color: rgba(15, 111, 236, 0.1);
+}
+
+.nav-link {
+  color: black;
+}
+.nav-link.active{
+  color: dodgerblue !important;
+}
+
+.dropzone {
+  min-height: auto;
+  border-radius: 0.4rem;
+  position: relative;
+  z-index: 0;
+  border: 2px dashed #eef0f2;
+}
+.dropzone.dz-clickable {
+  cursor: pointer;
+}
+.dropzone .dz-message {
+  text-align: center;
+  margin: 2em 0;
+}
+
+
+
+
+// 应用动画效果到 body
+body {
+  font-family: 'Alimama Fang Yuan Ti', sans-serif; 
+  background: linear-gradient(to bottom, 
+    rgba(173, 216, 230, 0.5),  /* 淡蓝色 */
+    rgba(100, 149, 237, 0.4), /* 浅蓝色 */
+    rgba(70, 130, 180, 0.4),  /* 深蓝色 */
+    rgba(180, 210, 225, 0.3), /* 蓝灰色 */
+    rgba(255, 182, 193, 0.3), /* 浅粉色 */
+    rgba(255, 240, 245, 0.4), /* 淡粉色 */
+    rgba(255, 255, 224, 0.4), /* 淡黄色 */
+    rgba(255, 200, 150, 0.3), /* 淡橙色 */
+    rgba(255, 192, 203, 0.4), /* 淡红色 */
+    rgba(230, 230, 250, 0.4)  /* 紫色 */
+  );
+  height: 100vh; /* 确保背景填满整个视口 */
+
+}
+
+.hover-img {
+    transition: transform 0.3s ease;
+  }
+
+.parallax {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.parallax-layer {
+  position: absolute;
+  width: 100%;
+  height: auto;
+}
+.dropdown-menu {
+    font-size: 0.875rem; /* 或其他更小的值 */
+}
+.dropdown-item {
+    padding: 0.25rem 0.5rem; /* 调整为更小的值 */
+}
+.avatar-img {
+    width: 30px; /* 或其他适合的大小 */
+    height: 30px; /* 或其他适合的大小 */
+}
+.dropdown-menu {
+    max-height: 200px; /* 或其他合适的值 */
+    overflow-y: auto; /* 启用垂直滚动 */
+}
+#timeCount {
+  width: 40%;
+  height: 400px;
+  border-radius: 15px; /* 设置圆角半径 */
+}
+
