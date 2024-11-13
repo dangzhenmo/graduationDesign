@@ -22,6 +22,8 @@ module.exports = {
     new HtmlWebpackPlugin({ template: './src/index.html', filename: 'index.html' }),
     new HtmlWebpackPlugin({ template: './src/user.html', filename: 'user.html' }), // 这里添加第二个页面
     new HtmlWebpackPlugin({ template: './src/train.html', filename: 'train.html' }), // 这里添加第三个页面
+    new HtmlWebpackPlugin({ template: './src/register.html', filename: 'register.html' }), // 这里添加第四个页面
+    new HtmlWebpackPlugin({ template: './src/login.html', filename: 'login.html' }), // 这里添加第五个页面
     new MiniCssExtractPlugin({ filename: 'main.css' }) // CSS提取插件
   ],
   module: {
