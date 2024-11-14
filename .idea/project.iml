@@ -5,5 +5,11 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 3.10 (nlp)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="bootstrap-4.2.1" level="application" />
+    <orderEntry type="library" name="jquery-1.10.2" level="application" />
+    <orderEntry type="library" name="bootstrap-3.3.4" level="application" />
+    <orderEntry type="library" name="rainyday" level="application" />
+    <orderEntry type="library" name="click" level="application" />
+    <orderEntry type="library" name="Sakura" level="application" />
   </component>
 </module>
