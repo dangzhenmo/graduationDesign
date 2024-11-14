@@ -112,7 +112,8 @@
         /* 注册按钮点击 */
         $("#regbtn").click(function(){
             if(flagName && flagPas && flagPass) {
-                const url = "http://localhost:8081/user/register";
+                const url = "http://api.demo.joking7.com:8081/user/login";
+                //const url = "http://localhost:8081/user/login";
 
                 $.ajax({
                     url: url,
