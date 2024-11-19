@@ -1024,7 +1024,8 @@ function handleFileUpload(historyId) {
   const uploadButton = document.getElementById("upload-file");
 
   uploadButton.addEventListener("click", function () {
-    const audioFile = document.getElementById("audioInput").files[0];
+    const audioInput = document.getElementById("audioInput");
+    const audioFile = audioInput.files[0];
     let questionName;
 
     // 根据 currentTab 的值和题目编号确定题目名称
@@ -1048,8 +1049,13 @@ function handleFileUpload(historyId) {
 
     // 调用上传函数
     uploadAudio(historyId, audioFile, questionName);
+
+    // 清空前端已上传的 audioFile 值
+    audioInput.value = "";
+    alert("音频文件已上传并清空！");
   });
 }
+
 
 
 
