@@ -861,6 +861,7 @@ function loadFirstQuestion() {
 }
 
 let textImages = ["包.png", "草.png", "飞.png", "歌.png", "烤.png", "帽.png", "泡.png", "西.png", "珠.png", "字.png"];
+let textName = ["包", "草", "飞", "歌", "烤", "帽", "泡", "西", "珠", "字"];
 // 3.设置寻找题目路径的函数
 function getQuestionImage(category, questionNumber) {
   if (currentTab === "全韵母") {
@@ -1015,7 +1016,7 @@ function nextQuestion() {
 
 
 
-// 5.提交上传视频,音频至后端并获取答案
+// 5.设置上传视频,音频至后端并获取答案的函数
 //文字部分的代码
 
 function handleFileUpload(historyId) {
@@ -1026,11 +1027,12 @@ function handleFileUpload(historyId) {
     const audioFile = document.getElementById("audioInput").files[0];
     let questionName;
 
-    // 根据 currentTab 的值确定答案
+    // 根据 currentTab 的值和题目编号确定题目名称
     if (currentTab === "单韵母" || currentTab === "全韵母") {
       questionName = questionInCategory;
     } else if (currentTab === "文字") {
-      questionName = textImages[questionInText];
+      questionName = textName[questionInText];
+      console.log(questionName);
     }
 
     // 检查必要条件
@@ -1053,7 +1055,7 @@ function handleFileUpload(historyId) {
 
 
 
-async function uploadAudio(historyId, audioFile, answer) {
+async function uploadAudio(historyId, audioFile, questionName) {
   const token = localStorage.getItem("JWToken"); // 从本地存储获取 JWT Token
   if (!token) {
     alert("用户未登录，请先登录！");
@@ -1063,7 +1065,7 @@ async function uploadAudio(historyId, audioFile, answer) {
   // 初始化 FormData
   const formData = new FormData();
   formData.append("audio", audioFile); // 添加音频文件
-  formData.append("answer", answer); // 添加答案
+  formData.append("answer", questionName); // 添加训练题目名称
 
   try {
     // 使用 fetch 发送 POST 请求
