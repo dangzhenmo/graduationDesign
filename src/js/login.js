@@ -155,3 +155,115 @@ if (window.location.pathname.endsWith("login.html")) {
     });
 }
 
+// 定义一个函数以从后端获取用户信息
+async function fetchUserProfile() {
+    try {
+        // 获取 JWT Token（假设存储在 localStorage 中）
+        const token = localStorage.getItem('JWToken');
+        if (!token) {
+            alert('未找到登录信息，请重新登录！');
+            return;
+        }
+
+        // 调用后端接口
+        const response = await fetch('http://api.demo.joking7.com:8081/user/profile', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'JWToken': token,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // 解析响应数据
+        const result = await response.json();
+        if (result.code === 200) {
+            const user = result.data;
+            console.log(result.data);
+            populateUserForm(user); // 调用表单填充函数
+        } else {
+            alert(`获取用户信息失败: ${result.msg}`);
+        }
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        alert('获取用户信息时发生错误，请稍后再试。');
+    }
+}
+
+// 定义一个函数用于将数据填充到表单中
+function populateUserForm(user) {
+    // 设置用户名
+    const usernameInput = document.getElementById('username');
+    if (usernameInput) usernameInput.value = user.user_name;
+
+    // 设置分数
+    const userScoreInput = document.getElementById('userScore');
+    if (userScoreInput) userScoreInput.value = user.score || 'N/A';
+    const token = localStorage.getItem("JWToken");
+    console.log(token);
+}
+
+// 定义一个函数以更新用户信息
+async function updateUserProfile() {
+    try {
+        // 获取 JWT Token（假设存储在 localStorage 中）
+        const token = localStorage.getItem('JWToken');
+        if (!token) {
+            alert('未找到登录信息，请重新登录！');
+            return;
+        }
+
+        // 获取表单中的用户输入数据
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if (!username || !password) {
+            alert('用户名和密码不能为空！');
+            return;
+        }
+
+        // 构造请求参数
+        const formData = new URLSearchParams();
+        formData.append('user_name', username);
+        formData.append('password', password);
+
+        // 调用后端接口
+        const response = await fetch('http://api.demo.joking7.com:8081/user/update/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'JWToken': token,
+            },
+            body: formData,
+        });
+
+        // 解析响应数据
+        const result = await response.json();
+        if (result.code === 200) {
+            alert('用户信息更新成功！');
+        } else {
+            alert(`更新失败: ${result.msg}`);
+        }
+    } catch (error) {
+        console.error('Error updating user profile:', error);
+        alert('更新用户信息时发生错误，请稍后再试。');
+    }
+}
+
+// 页面加载后获取用户信息
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname.endsWith("manage.html")) {
+        fetchUserProfile();
+        // 为按钮绑定点击事件
+        document.getElementById('update-user').addEventListener('click', (event) => {
+            event.preventDefault(); // 防止表单默认提交行为
+            updateUserProfile();
+        });
+
+
+    }
+});
+

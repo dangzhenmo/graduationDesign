@@ -55,6 +55,13 @@ module.exports = {
       chunks: ['login'], // 只加载 login.js
       excludeAssets: [/main\.css/], // 排除 main.css
     }),
+    // 独立 manage.js 和 manage.css 的页面
+    new HtmlWebpackPlugin({
+      template: './src/manage.html',
+      filename: 'manage.html',
+      chunks: ['login'], // 只加载 login.js
+      excludeAssets: [/main\.css/], // 排除 main.css
+    }),
     // new HtmlWebpackExcludeAssetsPlugin(),
     new HtmlWebpackPlugin({
       template: './src/dataAnalysis.html',

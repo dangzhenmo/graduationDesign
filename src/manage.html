@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage</title>
+    <link href="./login.css" rel="stylesheet">
+</head>
+<body>
+<div class="main-container m-0 p-0">
+    <!-- Left Section -->
+    <div class="left-section">
+        <div class="d-flex flex-row-fluid flex-center flex-column-auto flex-column text-center mb-5">
+            <!--begin::Aside Logo-->
+            <h3 class="fw-bold fs-2x text-white lh-lg">
+                <img alt="Logo" src="https://preview.keenthemes.com/start/assets/media/logos/logo-default.svg" style="height: 180px;width: 180px;"/>
+                <br />点亮微笑<br />
+                赋予语言新生的力量！
+            </h3>
+        </div>
+        <div class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px"
+             style="background-image: url(./images/child.png)">
+        </div>
+    </div>
+
+    <!-- Right Section -->
+    <div class="right-section mx-auto">
+        <h2>管理用户信息</h2>
+        <p>可以在此处对用户名和用户密码进行修改。</p>
+
+        <form id="manageUserForm" class="login-form">
+            <!-- 用户名 -->
+            <label for="username">用户名</label>
+            <input type="text" id="username" value="当前用户名" placeholder="请输入新的用户名..">
+
+            <div class="register-password">
+                <!-- 密码 -->
+                <label for="password">密码</label>
+                <input id="password" type="password"  placeholder="请输入新的密码..">
+                <div class="text-muted">请使用8位以上的密码，并混合数字，字母，符号</div>
+                <!-- 用户分数 -->
+                <label for="userScore">当前分数</label>
+                <input type="text" id="userScore" value="85" disabled>
+            </div>
+
+            <!-- 提交按钮 -->
+            <button id="update-user" type="submit" class="btn sign-in">保存修改</button>
+        </form>
+
+        <div class="footer-links">
+            <a href="#">关于我们</a>
+            <a href="#">支持</a>
+            <a href="#">联系我们</a>
+        </div>
+    </div>
+
+</div>
+
+<!-- Login page content -->
+<script src="./login.js"></script>
+</body>
+</html>

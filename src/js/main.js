@@ -8,12 +8,14 @@ require('highcharts/modules/sankey')(Highcharts)
 require('highcharts/modules/organization')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
 import { Popover } from 'bootstrap';
+import {Modal} from "bootstrap";
 import "flatpickr/dist/flatpickr.min.css";
 // 引入 flatpickr 的 JS
 import flatpickr from "flatpickr";
 import Dropzone from "dropzone";
 import "dropzone/dist/dropzone.css";
-import tooltip from "bootstrap/js/src/tooltip";  // 引入样式文件
+import tooltip from "bootstrap/js/src/tooltip";
+import {getElement} from "bootstrap/js/src/util";  // 引入样式文件
 
 
 
@@ -90,7 +92,7 @@ window.onload = function(){
   }
 }
 
-//特殊日期————学习记录
+//特殊日期————学习记录,用于渲染到日历中
 async function fetchTrainDate() {
   try {
     const result = await requestWithToken('http://api.demo.joking7.com:8081/history/list/month', {
@@ -799,6 +801,9 @@ let currentTab = "单韵母";  // 默认选中第一个选项卡
 let questionInCategory = 1; // 全韵母和单韵母的计数器
 let questionInText = 0;      // 文字题的计数器
 let allAnswerResult = ""; // 统计所有题目的答案
+let mode = 1;
+let workingDays = {}; // 初始化为空对象
+let modeData = {}; // 按照 mode 分类存储所有数据
 try{
   document.addEventListener("DOMContentLoaded", function () {
 
@@ -811,20 +816,36 @@ try{
         tab.addEventListener('click', function () {
           const tabText = this.innerText;
           currentTab = tabText;
-
           // 切换模式时重置相应的题目计数器
           if (currentTab === "全韵母") {
             questionInCategory = 1;
+            mode = 2;
             currentCategory = categories[0].name;
           } else if (currentTab === "文字") {
             questionInText = 0;
+            mode = 3;
           }else if (currentTab === "单韵母") {
             questionInCategory = 1;
+            mode = 1;
           }
-
+          // 切换选项卡时获取每个模式的学习天数
+          fetchUserPlan();
           // 切换选项卡时加载第一道题目
           loadFirstQuestion();
+          // 切换选项卡时重新加载对应的计划卡片
+          //fetchUserPlan();
+          // createPlanCards(modeData,mode);
         });
+      });
+
+      // 关闭题目窗口时，调用刷新第一题函数进行刷新
+      const closeButton1 = document.getElementById("closeModal1");
+      const closeButton2 = document.getElementById("closeModal2");
+      closeButton1.addEventListener("click", function () {
+        loadFirstQuestion();
+      });
+      closeButton2.addEventListener("click", function () {
+        loadFirstQuestion();
       });
     }
   });
@@ -878,8 +899,8 @@ function getQuestionImage(category, questionNumber) {
 
 
 let historyId;
-let count1=1;
 //6.创建新的学习记录,并将创建按钮与进行学习记录的函数绑定.将上传视频和对音频进行评分的功能进行绑定
+//刷新页面后仍创建卡片
 document.addEventListener("DOMContentLoaded", function () {
   if (window.location.pathname.endsWith("train.html")) {
     const startStudyButton = document.getElementById("start-study");
@@ -894,25 +915,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (uploadFileButton) {
       uploadFileButton.addEventListener("click", function () {
         handleFileUpload(historyId);
-        count1+=1;
-        console.log("count1",count1);
       });
     }
   }
 });
 
-//定义开始进行学习记录的函数
 
 async function startStudy() {
   try {
-    let mode;
-    if (currentTab === "单韵母") {
-      mode = 1;
-    } else if (currentTab === "全韵母") {
-      mode = 2;
-    } else if (currentTab === "文字") {
-      mode = 3;
-    }
 
     const params = new URLSearchParams({
       trainer: "测试人待定-预期和用户名一样aa",
@@ -956,44 +966,41 @@ function nextQuestion() {
       questionInCategory++; // 重置题目编号
       currentCategory = categories[categoryIndex + 1].name;
     } else {
-      alert('你已经完成所有题目！');
-      questionInCategory = 1; // 完成后重置
       // 完成后结束训练并上传训练数据
       const answersScore = calculateTotalScore(allAnswerResult);
       const answers = allAnswerResult; // 替换为实际的答题结果
       const other = "用户的一些备注"; // 替换为实际的附加信息（可选）
 
       endTraining(historyId, answers, other, answersScore);
+      questionInCategory = 1; // 完成后重置
+      alert('你已经完成所有题目！');
       return;
     }
   } else if (currentTab === "文字") {
     questionInText++;
     if (questionInText >= 10) {
-      alert('你已经完成所有题目！');
-      questionInText = 0; // 完成后重置
-
       // 完成后结束训练并上传训练数据
-
       const answersScore = calculateTotalScore(allAnswerResult);
       const answers = allAnswerResult; // 替换为实际的答题结果
       const other = "用户的一些备注"; // 替换为实际的附加信息（可选）
 
-      endTraining(answers, other, answersScore);
+      endTraining(historyId, answers, other, answersScore);
+      questionInText = 0; // 完成后重置
+      alert('你已经完成所有题目！');
       return;
     }
   }
   else if (currentTab === "单韵母") {
     questionInCategory++;
     if (questionInCategory > 6) {
-      alert('你已经完成所有题目！');
-      questionInCategory = 1; // 完成后重置
-
-
       const answersScore = calculateTotalScore(allAnswerResult);
       const answers = allAnswerResult; // 替换为实际的答题结果
       const other = "用户的一些备注"; // 替换为实际的附加信息（可选）
 
       endTraining(historyId, answers, other, answersScore);
+      questionInCategory = 1; // 完成后重置
+      alert('你已经完成所有题目！');
+      return;
     }
   }
   let questionImage; // 使用 let 代替 const，因为需要后续赋值
@@ -1021,7 +1028,6 @@ function nextQuestion() {
 
 // 5.设置上传视频,音频至后端并获取答案的函数,设置清空上传视频函数
 //文字部分的代码
-let count2=1;
 function handleFileUpload(historyId) {
   // 获取按钮元素并绑定点击事件
     const audioInput = document.getElementById("audioInput");
@@ -1046,7 +1052,6 @@ function handleFileUpload(historyId) {
       alert("题目名称未知！");
       return;
     }
-    count2+=1;
     console.log("count2",count2);
     // 调用上传函数
     uploadAudio(historyId, audioFile, questionName);
@@ -1063,7 +1068,6 @@ function deleteUploadFile() {
     alert("音频文件已上传并清空！");
   });
 }
-
 
 
 
@@ -1182,6 +1186,7 @@ async function endTraining(historyId, answers, other, answersScore) {
 
 //学习计划页面 start
 //  train 创建学习计划卡片
+
 try{
   if (window.location.pathname.endsWith("train.html")) {
     document.getElementById("createEventButton").addEventListener("click", function () {
@@ -1231,7 +1236,7 @@ try{
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-walking" viewBox="0 0 16 16">
             <path d="M9.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0M6.44 3.752A.75.75 0 0 1 7 3.5h1.445c.742 0 1.32.643 1.243 1.38l-.43 4.083a1.8 1.8 0 0 1-.088.395l-.318.906.213.242a.8.8 0 0 1 .114.175l2 4.25a.75.75 0 1 1-1.357.638l-1.956-4.154-1.68-1.921A.75.75 0 0 1 6 8.96l.138-2.613-.435.489-.464 2.786a.75.75 0 1 1-1.48-.246l.5-3a.75.75 0 0 1 .18-.375l2-2.25Z"/>
             <path d="M6.25 11.745v-1.418l1.204 1.375.261.524a.8.8 0 0 1-.12.231l-2.5 3.25a.75.75 0 1 1-1.19-.914zm4.22-4.215-.494-.494.205-1.843.006-.067 1.124 1.124h1.44a.75.75 0 0 1 0 1.5H11a.75.75 0 0 1-.531-.22Z"/>
-          </svg> 已坚持10天
+          </svg> 已坚持<span id="working_days">a</span>天
         </label>
       </div>
       <div class="dropdown ms-3">
@@ -1262,6 +1267,7 @@ try{
 // 将新卡片插入到目标区域
       targetTab.appendChild(newCard);
 
+
     });
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1275,47 +1281,140 @@ try{
   console.log(error)
 }
 
+// 当页面刷新后，插入已经被创建的卡片
+function createPlanCards(modeData, mode) {
+  console.log(modeData[mode], "数据正常吗？");
+
+  if (!modeData[mode]) {
+    console.warn(`No data found for mode: ${mode}`);
+    return;
+  }
+
+  const plan_id = modeData[mode].plan_id; // 获取计划的唯一标识
+  const newCard = document.createElement("div");
+  newCard.classList.add("card", "mb-3", "shadow-sm");
+  newCard.style.width = "300px";
+
+  const backgroundImage = "./icons/拼音韵母.png"; // 替换为默认图片
+  const typeName = currentTab; // 根据实际数据定义 typeName
+  const eventName = modeData[mode].title;
+  const startDate = modeData[mode].plan_begin;
+  const endDate = modeData[mode].plan_end;
+  const eventDescription = modeData[mode].description;
+  const workingDays = modeData[mode].working_days;
+
+  console.log(eventName);
+
+  newCard.innerHTML = `
+    <div class="card-img-top" style="background-image: url('${backgroundImage}'); background-size: contain; background-position: center; height: 115px; width: 100%; position: relative;">
+      <a class="btn btn-xs btn-primary position-absolute" href="event-details.html" style="bottom: -18px; left: 18px;">${typeName}</a>
+    </div>
+    <div class="card-body position-relative" style="width: 100%; padding: 20px 18px;"> 
+      <h6 class="mt-3">${eventName}</h6>
+      <p class="mb-0 small">
+        起始日期: ${startDate}
+      </p>
+      <p class="small">终止日期: ${endDate}</p>
+      <p class="small">${eventDescription}</p>
+      <div class="d-flex mt-3">
+        <div class="w-75">
+          <input type="checkbox" class="btn-check d-block" id="Interested${Math.random().toString(36).substr(2, 9)}">
+          <label class="btn btn-sm btn-outline-success d-block" for="Interested${Math.random().toString(36).substr(2, 9)}">
+            已坚持<span id="working_days">${workingDays}</span>天
+          </label>
+        </div>
+        <div class="dropdown ms-3">
+          <a href="#" class="btn btn-sm btn-primary-soft d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+            分享
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">分享至微信</a></li>
+            <li><a class="dropdown-item" href="#">分享至QQ</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>`;
+
+  console.log(newCard.innerHTML, "代码正常吗？");
+
+  let targetTab;
+  // 根据 typeName 决定卡片插入的区域
+  if (typeName === "单韵母") {
+    targetTab = document.getElementById("tab-1");
+  } else if (typeName === "全韵母") {
+    targetTab = document.getElementById("tab-2");
+  } else if (typeName === "文字") {
+    targetTab = document.getElementById("tab-3");
+  }
+
+  // 检查是否已经存在相同 plan_id 的卡片
+  const existingCard = targetTab.querySelector(`.card[data-plan-id="${plan_id}"]`);
+  if (existingCard) {
+    console.log(`卡片已存在，未插入: ${plan_id}`);
+    return; // 卡片已存在，终止插入
+  }
+
+  // 为新卡片添加 plan_id 数据属性
+  newCard.setAttribute("data-plan-id", plan_id);
+
+  // 将新卡片插入到目标区域
+  targetTab.appendChild(newCard);
+}
+
+
+
 
 // 2.上传学习计划背景图
-try{
+try {
   Dropzone.autoDiscover = false;
-  let myDropzone;  // 将 myDropzone 作为全局变量
-  document.addEventListener("DOMContentLoaded", function() {
+  let myDropzone; // 将 myDropzone 作为全局变量
+  const defaultImagePath = "./icons/拼音韵母.png"; // 默认图片路径
+
+  document.addEventListener("DOMContentLoaded", function () {
     if (window.location.pathname.endsWith("train.html")) {
       // 确保 Dropzone 没有重复初始化
       if (!Dropzone.instances.length) {
         // 初始化 Dropzone 实例
         myDropzone = new Dropzone(".dropzone", {
-          url: "/upload",  // 上传路径
-          maxFiles: 1,     // 限制上传文件数为 1
-          autoProcessQueue: false,  // 禁用自动上传
-          init: function() {
+          url: "/upload", // 上传路径
+          maxFiles: 1, // 限制上传文件数为 1
+          autoProcessQueue: false, // 禁用自动上传
+          init: function () {
+            // 初始化时设置默认图片路径
+            document.getElementById("backgroundImagePreview").value = defaultImagePath;
+
             // 监听文件添加事件
-            this.on("addedfile", function(file) {
-              // 生成预览图片的 URL
-              const imageURL = URL.createObjectURL(file);
-              // 存储背景图片的 URL
-              document.getElementById("backgroundImagePreview").value = imageURL;
+            this.on("addedfile", function (file) {
+              // 检查 file 是否有效
+              if (file instanceof File) {
+                const imageURL = URL.createObjectURL(file);
+                // 更新背景图片的 URL
+                document.getElementById("backgroundImagePreview").value = imageURL;
+              } else {
+                console.error("Invalid file object.");
+              }
             });
-          }
+          },
         });
       }
 
       // 监听清除按钮点击事件
-      document.getElementById("clearBackgroundImage").addEventListener('click', function() {
-        if (myDropzone) {
-          // 清除 Dropzone 中的所有文件
-          myDropzone.removeAllFiles(true);  // true 参数表示清除文件队列并触发删除事件
-          // 清空隐藏字段的值
-          document.getElementById("backgroundImagePreview").value = "";  // 清除隐藏字段的值
-        }
-      });
+      document
+          .getElementById("clearBackgroundImage")
+          .addEventListener("click", function () {
+            if (myDropzone) {
+              // 清除 Dropzone 中的所有文件
+              myDropzone.removeAllFiles(true); // true 参数表示清除文件队列并触发删除事件
+              // 重置隐藏字段为默认图片路径
+              document.getElementById("backgroundImagePreview").value = defaultImagePath;
+            }
+          });
     }
   });
-}catch (error)
-{
-  console.log(error)
+} catch (error) {
+  console.log(error);
 }
+
 
 //3.创建学习计划至后端
 // 调用创建用户学习计划的函数
@@ -1597,7 +1696,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 
-// 获取当月学习计划
+
+// 获取当月计划&传输学习天数
 async function fetchUserPlan() {
   try {
     const result = await requestWithToken('http://api.demo.joking7.com:8081/plan/user/list', {
@@ -1605,8 +1705,41 @@ async function fetchUserPlan() {
     });
 
     if (result.code === 200) {
-      console.log('当月学习计划:', result.data); // 输出当月历史记录
-      return result.data; // 返回数据以便进一步处理
+      // console.log('当月学习计划:', result.data); // 输出当月历史记录
+
+      // 填充 workingDays 和 modeData 对象
+      result.data.forEach(plan => {
+        if (!workingDays[plan.mode]) {
+          workingDays[plan.mode] = plan.working_days; // 使用 mode 作为键，working_days 作为值
+        }
+        // console.log(plan.mode);
+        if (!modeData[plan.mode]) {
+          modeData[plan.mode] = {
+            plan_id: plan.plan_id,
+            title: plan.title,
+            description: plan.description,
+            plan_begin: plan.plan_begin,
+            plan_end: plan.plan_end,
+            user_id: plan.user_id,
+            working_days: plan.working_days,
+          }; // 存储所有相关数据
+        }
+      });
+
+      console.log('整理后的 workingDays:', workingDays); // 输出整理后的 workingDays 对象
+      console.log('整理后的 modeData:', modeData); // 输出整理后的 modeData 对象
+      createPlanCards(modeData,mode);
+      const observer = new MutationObserver(() => {
+        const days = document.getElementById("working_days");
+        if (days) {
+          days.innerText = workingDays[mode]; // 更新内容
+          observer.disconnect(); // 找到目标后停止监听
+        }
+      });
+
+      // 配置 MutationObserver 监听整个文档的子节点变化
+      observer.observe(document.body, { childList: true, subtree: true });
+
     } else {
       alert('获取用户学习计划失败: ' + result.msg);
     }
@@ -1614,6 +1747,11 @@ async function fetchUserPlan() {
     console.error('获取用户学习计划出错:', error);
   }
 }
+
+
+
+
+
 
 if (window.location.pathname.endsWith("train.html")) {
   document.addEventListener("DOMContentLoaded", async () => { // 将回调函数声明为 async
