@@ -1,11 +1,10 @@
-'use strict'
+'use strict';
 
-const path = require('path')
-const autoprefixer = require('autoprefixer')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const path = require('path');
+const autoprefixer = require('autoprefixer');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
-
 
 module.exports = {
   mode: 'development',
@@ -22,6 +21,9 @@ module.exports = {
     static: path.resolve(__dirname, 'dist'),
     port: 8080,
     hot: true,
+  },
+  stats: {
+    warnings: false, // 屏蔽警告
   },
   plugins: [
     // 共享 main.js 和 main.css 的页面
@@ -92,4 +94,4 @@ module.exports = {
       },
     ],
   },
-}
+};

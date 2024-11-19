@@ -1024,9 +1024,6 @@ function nextQuestion() {
 let count2=1;
 function handleFileUpload(historyId) {
   // 获取按钮元素并绑定点击事件
-  const uploadButton = document.getElementById("upload-file");
-
-  uploadButton.addEventListener("click", function () {
     const audioInput = document.getElementById("audioInput");
     const audioFile = audioInput.files[0];
     let questionName;
@@ -1053,7 +1050,6 @@ function handleFileUpload(historyId) {
     console.log("count2",count2);
     // 调用上传函数
     uploadAudio(historyId, audioFile, questionName);
-  });
 }
 
 // 删除上传文件函数
