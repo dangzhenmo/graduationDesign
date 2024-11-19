@@ -883,7 +883,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (window.location.pathname.endsWith("train.html")) {
     const startStudyButton = document.getElementById("start-study");
     const uploadFileButton = document.getElementById("upload-file");
-
+    deleteUploadFile();
     if (startStudyButton) {
       startStudyButton.addEventListener("click", function () {
         startStudy();
@@ -1016,7 +1016,7 @@ function nextQuestion() {
 
 
 
-// 5.设置上传视频,音频至后端并获取答案的函数
+// 5.设置上传视频,音频至后端并获取答案的函数,设置清空上传视频函数
 //文字部分的代码
 
 function handleFileUpload(historyId) {
@@ -1049,14 +1049,20 @@ function handleFileUpload(historyId) {
 
     // 调用上传函数
     uploadAudio(historyId, audioFile, questionName);
+  });
+}
 
+// 删除上传文件函数
+function deleteUploadFile() {
+  const deleteButton = document.getElementById("deleteFile");
+
+  deleteButton.addEventListener("click", function () {
+    const audioInput = document.getElementById("audioInput");
     // 清空前端已上传的 audioFile 值
     audioInput.value = "";
     alert("音频文件已上传并清空！");
   });
 }
-
-
 
 
 
