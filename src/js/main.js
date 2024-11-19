@@ -878,6 +878,7 @@ function getQuestionImage(category, questionNumber) {
 
 
 let historyId;
+let count1 = 1;
 //6.创建新的学习记录,并将创建按钮与进行学习记录的函数绑定.将上传视频和对音频进行评分的功能进行绑定
 document.addEventListener("DOMContentLoaded", function () {
   if (window.location.pathname.endsWith("train.html")) {
@@ -893,6 +894,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (uploadFileButton) {
       uploadFileButton.addEventListener("click", function () {
         handleFileUpload(historyId);
+        count1++;
+        console.log(count1);
       });
     }
   }
@@ -1018,7 +1021,7 @@ function nextQuestion() {
 
 // 5.设置上传视频,音频至后端并获取答案的函数,设置清空上传视频函数
 //文字部分的代码
-
+let count2 = 0;
 function handleFileUpload(historyId) {
   // 获取按钮元素并绑定点击事件
   const uploadButton = document.getElementById("upload-file");
@@ -1046,7 +1049,8 @@ function handleFileUpload(historyId) {
       alert("题目名称未知！");
       return;
     }
-
+    count++;
+    console.log(count2);
     // 调用上传函数
     uploadAudio(historyId, audioFile, questionName);
   });
