@@ -798,7 +798,7 @@ function initAwardLine(){
 let currentTab = "单韵母";  // 默认选中第一个选项卡
 let questionInCategory = 1; // 全韵母和单韵母的计数器
 let questionInText = 0;      // 文字题的计数器
-
+let allAnswerResult = ""; // 统计所有题目的答案
 try{
   document.addEventListener("DOMContentLoaded", function () {
 
@@ -860,7 +860,7 @@ function loadFirstQuestion() {
   document.getElementById('nextQuestion').addEventListener('click', nextQuestion);
 }
 
-
+let textImages = ["包.png", "草.png", "飞.png", "歌.png", "烤.png", "帽.png", "泡.png", "西.png", "珠.png", "字.png"];
 // 3.设置寻找题目路径的函数
 function getQuestionImage(category, questionNumber) {
   if (currentTab === "全韵母") {
@@ -868,7 +868,6 @@ function getQuestionImage(category, questionNumber) {
     return `./images/question/全韵母/${category}/题目_${questionNumber}.png`;
   } else if (currentTab === "文字") {
     // 对于文字类别，直接返回图片列表中的图片
-    const textImages = ["包.png", "草.png", "飞.png", "歌.png", "烤.png", "帽.png", "泡.png", "西.png", "珠.png", "字.png"];
     return `./images/question/文字/${textImages[questionNumber]}`;
   }
    else if(currentTab === "单韵母"){
@@ -879,14 +878,25 @@ function getQuestionImage(category, questionNumber) {
 
 let historyId;
 //6.创建新的学习记录,并将创建按钮与进行学习记录的函数绑定.将上传视频和对音频进行评分的功能进行绑定
-if (window.location.pathname.endsWith("train.html")) {
-  document.getElementById("start-study").addEventListener("click", function () {
-    startStudy();
-  });
-  document.getElementById("upload-file").addEventListener("click", function () {
-    handleFileUpload(historyId);
-  });
-}
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.location.pathname.endsWith("train.html")) {
+    const startStudyButton = document.getElementById("start-study");
+    const uploadFileButton = document.getElementById("upload-file");
+
+    if (startStudyButton) {
+      startStudyButton.addEventListener("click", function () {
+        startStudy();
+      });
+    }
+
+    if (uploadFileButton) {
+      uploadFileButton.addEventListener("click", function () {
+        handleFileUpload(historyId);
+      });
+    }
+  }
+});
+
 //定义开始进行学习记录的函数
 
 async function startStudy() {
@@ -1014,13 +1024,13 @@ function handleFileUpload(historyId) {
 
   uploadButton.addEventListener("click", function () {
     const audioFile = document.getElementById("audioInput").files[0];
-    let answer;
+    let questionName;
 
     // 根据 currentTab 的值确定答案
     if (currentTab === "单韵母" || currentTab === "全韵母") {
-      answer = questionInCategory;
+      questionName = questionInCategory;
     } else if (currentTab === "文字") {
-      answer = textImages[questionNumber];
+      questionName = textImages[questionInText];
     }
 
     // 检查必要条件
@@ -1029,19 +1039,19 @@ function handleFileUpload(historyId) {
       return;
     }
 
-    if (!answer) {
+    if (!questionName) {
       alert("题目名称未知！");
       return;
     }
 
     // 调用上传函数
-    uploadAudio(historyId, audioFile, answer);
+    uploadAudio(historyId, audioFile, questionName);
   });
 }
 
 
 
-let allAnswerResult = ""; // 统计所有题目的答案
+
 
 async function uploadAudio(historyId, audioFile, answer) {
   const token = localStorage.getItem("JWToken"); // 从本地存储获取 JWT Token
@@ -1057,7 +1067,7 @@ async function uploadAudio(historyId, audioFile, answer) {
 
   try {
     // 使用 fetch 发送 POST 请求
-    const response = await fetch(`http://api.demo.joking7.com:8081/test/predict/upload/${historyId}`, {
+    const response = await fetch(`http://api.demo.joking7.com:8081/test/predict/upload/1?answer=飞`, {
       method: "POST",
       headers: {
         JWToken: token, // 添加 Token 到请求头
@@ -1079,7 +1089,7 @@ async function uploadAudio(historyId, audioFile, answer) {
       alert(`预测结果：${ans}，判断：${judgement}`);
       const scoreDisplay = document.getElementById("scoreDisplay");
       if (scoreDisplay) {
-        scoreDisplay.innerText = `预测结果：${judgement}`;
+        scoreDisplay.innerText = `${judgement}`;
       }
 
       console.log("当前所有题目结果:", allAnswerResult);
@@ -1398,24 +1408,19 @@ async function addPlan() {
 
 
 
-
-//train 事件查看
-try{
+// train 事件查看
+document.addEventListener('DOMContentLoaded', function() {
   if (window.location.pathname.endsWith("train.html")) {
-    //事件查看
     const scrollButton = document.getElementById('scrollButton');
-    const bottomSection = document.getElementById('studySection');
+    const bottomSection = document.getElementById('start-study');
 
-    //为按钮绑定点击事件
-    scrollButton.addEventListener('click', function() {
-      // 使用 scrollIntoView() 平滑滚动到指定元素
-      bottomSection.scrollIntoView({ behavior: 'smooth' });
-    });
+    if (scrollButton && bottomSection) {
+      scrollButton.addEventListener('click', function() {
+        bottomSection.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
   }
-}catch (error)
-{
-  console.log(error)
-}
+});
 
 
 // 光暗调节
@@ -1480,7 +1485,6 @@ async function fetchUserName() {
       method: 'GET',
     });
     const token = localStorage.getItem("JWToken");
-    console.log(token);
     if (result.code === 200) {
       userName = result.data.user_name;
       console.log('获取的用户名:', userName);

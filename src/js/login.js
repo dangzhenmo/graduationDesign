@@ -140,7 +140,6 @@ if (window.location.pathname.endsWith("login.html")) {
                 const jwToken = data.data;
                 if (jwToken) {
                     localStorage.setItem('JWToken', jwToken); // 存储到 localStorage
-                    alert('JWToken 存储成功:');
                 } else {
                     alert('响应头中未包含 JWToken');
                 }
