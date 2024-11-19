@@ -1,0 +1,242 @@
+// Override Bootstrap's Sass default variables
+//C:\Homework\paper\project\src\scss\login.scss
+// Nearly all variables in Bootstrap are written with the `!default` flag.
+// This allows you to override the default values of those variables before
+// you import Bootstrap's source Sass files.
+//
+// Overriding the default variable values is the best way to customize your
+// CSS without writing _new_ styles. For example, you can either change
+// `$body-color` or write more CSS that override's Bootstrap's CSS like so:
+// `body { color: red; }`.
+
+//
+// Bring in Bootstrap
+//
+
+// Import all of Bootstrap's CSS
+@import "bootstrap/scss/bootstrap";
+
+// Place variable overrides first, then import just the styles you need. Note that some stylesheets are required.
+
+
+// Include functions first
+@import "bootstrap/scss/functions";
+
+// Customize some defaults
+
+// Required
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/navbar"; // Requires nav
+@import "bootstrap/scss/modal"; // Requires transitions
+@import "bootstrap/scss/popover";
+@import "bootstrap/scss/offcanvas"; // Requires transitions
+
+// Helpers
+@import "bootstrap/scss/helpers";
+
+// Utilities
+@import "bootstrap/scss/utilities/api";
+
+//
+// Custom styles
+//
+
+@import "icon-list";
+
+@font-face {
+  font-family: 'Alimama Fang Yuan Ti';
+  src: url('../assets/fonts/AlimamaFangYuanTiVF-Thin.woff2') format('woff2'),
+  url('../assets/fonts/AlimamaFangYuanTiVF-Thin.woff') format('woff'),
+  url('../assets/fonts/AlimamaFangYuanTiVF-Thin.ttf') format('truetype');
+  font-weight: 400; /* 可根据需要调整 */
+  font-style: normal; /* 可根据需要调整 */
+}
+.main{
+  height: 100vh;
+}
+
+body {
+  color: #333;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.main-container {
+  display: flex;
+  height: 100vh; /* 让容器高度占满整个屏幕 */
+  width: 100%; /* 让容器宽度占满整个屏幕 */
+}
+.bgi-size-contain {
+  background-size: contain;
+}
+.bgi-position-x-center {
+  background-position-x: center;
+}
+
+.bgi-position-y-bottom {
+  background-position-y: bottom;
+}
+.bgi-no-repeat {
+  background-repeat: no-repeat;
+}
+.min-h-lg-350px {
+  min-height: 350px !important;
+}
+.flex-row-auto {
+  flex: 0 0 auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+.flex-row-fluid {
+  flex: 1 auto;
+  min-width: 0;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Left Section */
+.left-section {
+  background-color: #28d79f;
+  color: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  width: 40%; /* 左侧部分占屏幕宽度的40% */
+}
+
+.left-section h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.left-section p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 40px;
+}
+
+.left-section .illustration {
+  max-width: 80%;
+  height: auto;
+}
+
+/* Right Section */
+.right-section {
+  display: flex;
+  flex-direction: column; /* 使内容垂直排列 */
+  justify-content: center; /* 垂直方向居中 */
+  align-items: center; /* 水平方向居中 */
+  padding: 40px;
+}
+
+.right-section h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.right-section p {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.right-section a {
+  color: #28d79f;
+  text-decoration: none;
+}
+
+.right-section .login-form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-form label {
+  font-size: 14px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-form .forgot-password {
+  text-align: right;
+  font-size: 12px;
+  margin-top: -10px;
+}
+
+.btn {
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.sign-in {
+  background-color: #20D489;
+  color: #fff;
+}
+
+.qq-login {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.footer-links {
+  margin-top: 30px;
+}
+
+.footer-links a {
+  margin-right: 15px;
+  font-size: 12px;
+  color: #666;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+.border-gray-300 {
+  border-color: #dad3c3 !important;
+}
+.text-gray-400 {
+  color: #b5b0a1 !important;
+}
+.mw-50 {
+  max-width: 50% !important;
+}
+.text-muted {
+  color: #968e7e !important;
+  font-size: 13px;
+}
+.register-password{
+  gap:5px !important;
+}

@@ -4,12 +4,17 @@ const path = require('path')
 const autoprefixer = require('autoprefixer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
+
 
 module.exports = {
   mode: 'development',
-  entry: './src/js/main.js',
+  entry: {
+    main: './src/js/main.js', // 主入口
+    login: './src/js/login.js', // 独立的 login.js
+  },
   output: {
-    filename: 'main.js',
+    filename: '[name].js', // 动态生成 main.js 和 login.js
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
@@ -19,12 +24,42 @@ module.exports = {
     hot: true,
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './src/index.html', filename: 'index.html' }),
-    new HtmlWebpackPlugin({ template: './src/user.html', filename: 'user.html' }), // 这里添加第二个页面
-    new HtmlWebpackPlugin({ template: './src/train.html', filename: 'train.html' }), // 这里添加第三个页面
-    new HtmlWebpackPlugin({ template: './src/register.html', filename: 'register.html' }), // 这里添加第四个页面
-    new HtmlWebpackPlugin({ template: './src/login.html', filename: 'login.html' }), // 这里添加第五个页面
-    new MiniCssExtractPlugin({ filename: 'main.css' }) // CSS提取插件
+    // 共享 main.js 和 main.css 的页面
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      filename: 'index.html',
+      chunks: ['main'], // 加载 main.js 和 main.css
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/user.html',
+      filename: 'user.html',
+      chunks: ['main'], // 加载 main.js 和 main.css
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/train.html',
+      filename: 'train.html',
+      chunks: ['main'], // 加载 main.js 和 main.css
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/register.html',
+      filename: 'register.html',
+      chunks: ['login'], // 只加载 login.js
+      excludeAssets: [/main\.css/], // 排除 main.css
+    }),
+    // 独立 login.js 和 login.css 的页面
+    new HtmlWebpackPlugin({
+      template: './src/login.html',
+      filename: 'login.html',
+      chunks: ['login'], // 只加载 login.js
+      excludeAssets: [/main\.css/], // 排除 main.css
+    }),
+    // new HtmlWebpackExcludeAssetsPlugin(),
+    new HtmlWebpackPlugin({
+      template: './src/dataAnalysis.html',
+      filename: 'dataAnalysis.html',
+      chunks: ['main'], // 加载 main.js 和 main.css
+    }),
+    new MiniCssExtractPlugin({ filename: '[name].css' }), // 动态生成 main.css 和 login.css
   ],
   module: {
     rules: [
@@ -32,8 +67,8 @@ module.exports = {
         test: /\.svg$/,
         type: 'asset/resource',
         generator: {
-          filename: 'icons/[hash].svg'
-        }
+          filename: 'icons/[hash].svg',
+        },
       },
       {
         test: /\.(scss)$/,
@@ -44,20 +79,17 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: [
-                  autoprefixer // 这里正确地添加autoprefixer
-                ]
-              }
-            }
+                plugins: [autoprefixer], // 正确地添加 autoprefixer
+              },
+            },
           },
-          'sass-loader'
-        ]
+          'sass-loader',
+        ],
       },
       {
-        test: /\.css$/,    
-        use: [MiniCssExtractPlugin.loader, 'css-loader'] // 替换 style-loader
-      }
-    ]
-  }
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'], // 替换 style-loader
+      },
+    ],
+  },
 }
-

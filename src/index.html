@@ -6,13 +6,13 @@
   <link rel="stylesheet" href="./main.css">
   <title>Bootstrap w/ Webpack</title>
 </head>
-<body>
+<body class="light-mode">
 <!-- 导航栏 -->
 <nav class="navbar fixed-top navbar-expand-lg bg-deep-purple bg-opacity-75 p-2 text-white">
   <div class="container">
     <a class="navbar-brand text-white" href="#">
       <img src="./icons/icons8-bootstrap-logo.svg" alt="Bootstrap" width="50" height="44">
-      导航栏
+      <span style="display: inline-block; overflow: hidden">导航栏</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -20,14 +20,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item "><a class="nav-link text-white active" aria-current="page" href="#">主页</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#">训练</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="http://localhost:8080/train.html">训练</a></li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">模式选择</a>
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">主要功能分类</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">简单韵母嘴型训练</a></li>
-            <li><a class="dropdown-item" href="#">韵母以及复杂韵母发音准确性训练</a></li>
+            <li><a class="dropdown-item" href="#">单韵母发音训练</a></li>
+            <li><a class="dropdown-item" href="#">全韵母发音训练</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item " href="#">24个韵母嘴型训练</a></li>
+            <li><a class="dropdown-item " href="#">文字发音训练</a></li>
           </ul>
         </li>
         <li class="nav-item">
@@ -87,7 +87,7 @@
                 准备好通过我们的智能方法开启一段充实的语言学习旅程了吗？
               </p>
             </div>
-            <a href="#" class="btn btn-dark">立即注册</a>
+            <a href="http://localhost:8080/register.html" class="btn btn-dark">立即注册</a>
           </div>
           <div class="grid-overlay" style="
   background-image: url(./icons/pattern-white.svg);

@@ -67,9 +67,9 @@ $success: #7952b3;
 
 @font-face {
   font-family: 'Alimama Fang Yuan Ti';
-  src: url('C:/Homework/paper/project/src/assets/fonts/AlimamaFangYuanTiVF-Thin.woff2') format('woff2'),
-       url('C:/Homework/paper/project/src/assets/fonts/AlimamaFangYuanTiVF-Thin.woff') format('woff'),
-       url('C:/Homework/paper/project/src/assets/fonts/AlimamaFangYuanTiVF-Thin.ttf') format('truetype');
+  src: url('../assets/fonts/AlimamaFangYuanTiVF-Thin.woff2') format('woff2'),
+       url('../assets/fonts/AlimamaFangYuanTiVF-Thin.woff') format('woff'),
+       url('../assets/fonts/AlimamaFangYuanTiVF-Thin.ttf') format('truetype');
   font-weight: 400; /* 可根据需要调整 */
   font-style: normal; /* 可根据需要调整 */
 }
@@ -190,11 +190,9 @@ img {
   position: relative;
 }
 .welcome-title {
-  color: #fff;
   font-size: 1.640625rem;
 }
 .welcome-subtitle {
-  color: #fff;
   font-size: .9375rem;
 }
 .card-customize {
@@ -212,102 +210,176 @@ img {
   padding: 2rem 2.25rem;
 }
 //日历
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-td {
+/**
+ * Eric Meyer's Reset CSS v2.0+ (https://meyerweb.com/eric/tools/css/reset/)
+ * http://cssreset.com
+ */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
   padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+body {
+  font-size: 100%;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1.5;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-spacing: 2px;
+}
+.clearfix:before,
+.clearfix:after {
+  content: " "; /* 1 */
+  display: table; /* 2 */
 }
 
+.clearfix:after {
+  clear: both;
+}
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.clearfix {
+  *zoom: 1;
+}
+a, a:hover {
+  text-decoration: none;
+}
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 确保日历容器大小 */
 .calendar-container {
-  position: absolute;
-  width: 450px;
-  transform: scale(0.55); /* 缩小至80%，可以调整为其他比例 */
-  transform-origin: top left; /* 以顶部为基准缩放 */
+  max-width: 100%; /* 确保容器宽度最大为100% */
+  width: auto; /* 容器宽度自适应 */
+  margin-left: 5px;
+  display: block; /* 让日历容器内的内容成为块级元素 */
 }
 
+/* 日历头部样式 */
 .calendar-container header {
   border-radius: 1em 1em 0 0;
   background: #e66b6b;
   color: #fff;
-  padding: 3em 2em;
+  padding: 1em 2em;
 }
-
+/* 日期显示部分样式 */
 .day {
-  font-size: 8em;
+  font-size: 4em;
   font-weight: 900;
   line-height: 1em;
 }
-
 .month {
-  font-size: 4em;
-  line-height: 1em;
-  text-transform: capitalize; /* 首字母大写 */
+  font-size: 2em;
+  text-transform: capitalize;
 }
 
+/* 日历表格的样式 */
 .calendar {
   background: #fff;
   border-radius: 0 0 1em 1em;
-  -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .2), 0 3px 1px #fff;
   box-shadow: 0 2px 1px rgba(0, 0, 0, .2), 0 3px 1px #fff;
   color: #555;
-  display: inline-block;
-  padding-left: 5px;
-  width: 450px;
-  //transform: scale(0.6); /* 缩小至80%，可以调整为其他比例 */
-  //transform-origin: top center; /* 以顶部为基准缩放 */
+  display: block;
+  width: 100%; /* 让表格宽度自适应父容器 */
+  table-layout: fixed; /* 强制列宽一致 */
+  border-spacing: 0;
+  border-collapse: collapse;
 }
-
-.calendar thead {
-  color: #e66b6b;
-  font-weight: 700;
-  text-transform: uppercase;
+/* 确保 tbody 的宽度与 table 保持一致 */
+.calendar tbody {
+  width: 100%; /* 确保 tbody 宽度与 table 一致 */
 }
 
 .calendar td {
   padding: .5em 1em;
   text-align: center;
+  cursor: pointer;
+  width: 14.28%; /* 每个单元格宽度为 1/7（七天一周） */
 }
-
-.calendar tbody td:hover {
-  background: #cacaca;
-  color: #fff;
+.calendar tr {
+  width: 297px;
 }
-
+/* 当前日期高亮 */
 .current-day {
   color: #e66b6b;
 }
 
+/* 上月和下月的日期样式 */
 .prev-month,
 .next-month {
   color: #cacaca;
 }
 
-.ring-left,
-.ring-right {
+.special-date {
+  background-color: #6c757d;
+  color: white;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+}
+
+.special-date::after {
+  content: attr(data-tooltip);
   position: absolute;
-  top: 230px;
-}
-
-.ring-left { left: 2em; }
-.ring-right { right: 2em; }
-
-.ring-left:before,
-.ring-left:after,
-.ring-right:before,
-.ring-right:after {
-  background: #fff;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 5px;
+  font-size: 12px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 3px 1px rgba(0, 0, 0, .3), 0 -1px 1px rgba(0, 0, 0, .2);
-  box-shadow: 0 3px 1px rgba(0, 0, 0, .3), 0 -1px 1px rgba(0, 0, 0, .2);
-  content: "";
-  display: inline-block;
-  margin: 8px;
-  height: 32px;
-  width: 8px;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
 }
+
+.special-date:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+
 /* Basic resets */
 h2 {
   margin: 0 0 0.5em;
@@ -517,25 +589,53 @@ p[data-value]:after {
   background-position: right calc(0.4em + 0.3125rem) center;
   background-size: calc(0.8em + 0.625rem) calc(0.8em + 0.625rem);
 }
-
+.main-content {
+  h4 {
+    font-size: 10px !important;
+  }
+  p {
+    font-size: 10px !important;
+  }
+}
+.bj{
+   display: flex;
+   width: 100%;
+   flex-shrink: 1;
+   margin-top: 10px;
+   justify-content: space-between;
+   td{
+     font-size: 12px !important;
+   }
+}
 
 // 应用动画效果到 body
-body {
-  font-family: 'Alimama Fang Yuan Ti', sans-serif; 
-  background: linear-gradient(to bottom, 
-    rgba(173, 216, 230, 0.5),  /* 淡蓝色 */
-    rgba(100, 149, 237, 0.4), /* 浅蓝色 */
-    rgba(70, 130, 180, 0.4),  /* 深蓝色 */
-    rgba(180, 210, 225, 0.3), /* 蓝灰色 */
-    rgba(255, 182, 193, 0.3), /* 浅粉色 */
-    rgba(255, 240, 245, 0.4), /* 淡粉色 */
-    rgba(255, 255, 224, 0.4), /* 淡黄色 */
-    rgba(255, 200, 150, 0.3), /* 淡橙色 */
-    rgba(255, 192, 203, 0.4), /* 淡红色 */
-    rgba(230, 230, 250, 0.4)  /* 紫色 */
+body.light-mode {
+  font-family: 'Alimama Fang Yuan Ti', sans-serif;
+  background: linear-gradient(
+                  to bottom,
+                  rgba(173, 216, 230, 0.5),  /* 淡蓝色 */
+                  rgba(100, 149, 237, 0.4),  /* 浅蓝色 */
+                  rgba(70, 130, 180, 0.4),   /* 深蓝色 */
+                  rgba(180, 210, 225, 0.3),  /* 蓝灰色 */
+                  rgba(255, 182, 193, 0.3),  /* 浅粉色 */
+                  rgba(255, 240, 245, 0.4),  /* 淡粉色 */
+                  rgba(255, 255, 224, 0.4),  /* 淡黄色 */
+                  rgba(255, 200, 150, 0.3),  /* 淡橙色 */
+                  rgba(255, 192, 203, 0.4),  /* 淡红色 */
+                  rgba(230, 230, 250, 0.4)   /* 紫色 */
   );
   height: 100vh; /* 确保背景填满整个视口 */
-
+}
+body.dark-mode {
+  font-family: 'Alimama Fang Yuan Ti', sans-serif;
+  background: #121212; /* 深色背景 */
+  p {
+    color: #ffffff;      /* 白色文字 */
+  }
+  h1{
+    color: #ffffff;
+  }
+  height: 100vh;       /* 确保背景填满整个视口 */
 }
 
 .hover-img {
@@ -557,9 +657,31 @@ body {
     width: 30px; /* 或其他适合的大小 */
     height: 30px; /* 或其他适合的大小 */
 }
-#timeCount {
-  width: 40%;
-  height: 400px;
-  border-radius: 15px; /* 设置圆角半径 */
+
+
+
+//3D词云
+.wordCloud__tagBall {
+  position: relative;
 }
 
+.wordCloud__tag {
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  color: green;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.wordCloud__tag:hover {
+  color: red !important;
+}
+
+.wordCloud__home {
+  display: flex;
+  justify-content: center;
+}
