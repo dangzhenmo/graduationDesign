@@ -1010,7 +1010,7 @@ function nextQuestion() {
 
   // 重置得分显示
   document.getElementById('scoreDisplay').innerText = '未打分';
-  document.getElementById('videoUpload').value = ''; // 清空视频上传框
+  document.getElementById('audioInput').value = ''; // 清空视频上传框
   console.log('Button clicked');
 }
 
